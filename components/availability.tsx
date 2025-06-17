@@ -1,18 +1,19 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Clock, CheckCircle, AlertCircle } from "lucide-react"
 
-const timeSlots = [
-  { time: "9:00 AM", available: true, timezone: "EST" },
-  { time: "11:00 AM", available: false, timezone: "EST" },
-  { time: "2:00 PM", available: true, timezone: "EST" },
-  { time: "4:00 PM", available: true, timezone: "EST" },
-  { time: "6:00 PM", available: false, timezone: "EST" },
-]
+interface TimeSlot {
+  time: string
+  available: boolean
+  timezone: string
+}
+
+const DEFAULT_TIMEZONE = "UTC"
+
 
 const projectTimelines = [
   {
@@ -42,7 +43,40 @@ const projectTimelines = [
 ]
 
 export function Availability() {
-  const [selectedDate, setSelectedDate] = useState("2024-01-15")
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0])
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchSlots() {
+      try {
+        const res = await fetch("/api/calendly/slots")
+        if (res.ok) {
+          const data: TimeSlot[] = await res.json()
+          // Convert ISO to readable local time string
+          const formatted = data.map((slot) => ({
+            ...slot,
+            time: new Date(slot.time).toLocaleTimeString("en-US", {
+              hour: "numeric",
+              minute: "2-digit",
+            }),
+            timezone: slot.timezone || DEFAULT_TIMEZONE,
+          }))
+          setTimeSlots(formatted)
+        } else {
+          console.error("Failed to load Calendly slots")
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchSlots()
+  }, [])
+
+
 
   return (
     <section id="availability" className="py-20 px-4">
@@ -74,7 +108,12 @@ export function Availability() {
               <div>
                 <h4 className="text-lg font-semibold text-white mb-3">Available Time Slots</h4>
                 <div className="space-y-2">
-                  {timeSlots.map((slot, index) => (
+                  {loading ? (
+                      <p className="text-gray-400">Loading...</p>
+                    ) : timeSlots.length === 0 ? (
+                      <p className="text-gray-400">No slots available</p>
+                    ) : (
+                      timeSlots.map((slot, index) => (
                     <div
                       key={index}
                       className={`flex items-center justify-between p-3 rounded-lg border ${
@@ -104,7 +143,7 @@ export function Availability() {
                         {slot.available ? "Book" : "Booked"}
                       </Button>
                     </div>
-                  ))}
+                  )))}
                 </div>
               </div>
 

@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Home, Code, Info, Briefcase, Calendar } from "lucide-react"
+import AIBlockchainLabsLogo from "./logo"
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -25,106 +26,103 @@ export function Navigation() {
   }
 
   return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-black/80 backdrop-blur-md border-b border-purple-500/20" : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-            DevAI
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            <button onClick={() => scrollToSection("home")} className="hover:text-purple-400 transition-colors">
-              Home
-            </button>
-            <button onClick={() => scrollToSection("services")} className="hover:text-purple-400 transition-colors">
-              Services
-            </button>
-            <button onClick={() => scrollToSection("about")} className="hover:text-purple-400 transition-colors">
-              About
-            </button>
-            <button onClick={() => scrollToSection("case-studies")} className="hover:text-purple-400 transition-colors">
-              Case Studies
-            </button>
-            <button onClick={() => scrollToSection("portfolio")} className="hover:text-purple-400 transition-colors">
-              Portfolio
-            </button>
-            <button onClick={() => scrollToSection("availability")} className="hover:text-purple-400 transition-colors">
-              Availability
-            </button>
+    <>
+      <nav
+        className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+          isScrolled ? "bg-black/80 backdrop-blur-xl shadow-lg border-b border-purple-500/30 py-2" : "bg-transparent py-4"
+        }`}
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            {/* Botón menú móvil */}
             <Button
-              onClick={() => scrollToSection("contact")}
-              className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-fuchsia-500 to-cyan-600 text-white shadow-[0_0_10px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(0,255,255,0.6)] transition-transform hover:scale-125 focus:outline-none animate-pulse"
+              aria-label="Toggle menu"
             >
-              Contact
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </Button>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X /> : <Menu />}
-          </Button>
-        </div>
+            {/* Menú izquierdo (3 items) */}
+            <div className="hidden md:flex items-center space-x-4">
+              {[
+                { label: "Home", id: "home", icon: <Home className="w-4 h-4" /> },
+                { label: "Services", id: "services", icon: <Code className="w-4 h-4" /> },
+                { label: "About", id: "about", icon: <Info className="w-4 h-4" /> },
+              ].map(({ label, id, icon }) => (
+                <Button
+                  key={id}
+                  onClick={() => scrollToSection(id)}
+                  className="text-white hover:text-cyan-400 transition-colors group relative"
+                >
+                  <span className="mr-1">{icon}</span>
+                  <span className="relative z-10">{label}</span>
+                </Button>
+              ))}
+            </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-purple-500/20">
-            <div className="flex flex-col space-y-4 mt-4">
-              <button
-                onClick={() => scrollToSection("home")}
-                className="text-left hover:text-purple-400 transition-colors"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => scrollToSection("services")}
-                className="text-left hover:text-purple-400 transition-colors"
-              >
-                Services
-              </button>
-              <button
-                onClick={() => scrollToSection("about")}
-                className="text-left hover:text-purple-400 transition-colors"
-              >
-                About
-              </button>
-              <button
-                onClick={() => scrollToSection("case-studies")}
-                className="text-left hover:text-purple-400 transition-colors"
-              >
-                Case Studies
-              </button>
-              <button
-                onClick={() => scrollToSection("portfolio")}
-                className="text-left hover:text-purple-400 transition-colors"
-              >
-                Portfolio
-              </button>
-              <button
-                onClick={() => scrollToSection("availability")}
-                className="text-left hover:text-purple-400 transition-colors"
-              >
-                Availability
-              </button>
+            {/* Logo centrado */}
+            <div className="md:flex hidden justify-center absolute left-1/2 transform -translate-x-1/2">
+              <AIBlockchainLabsLogo />
+            </div>
+
+            {/* Menú derecho (3 items) */}
+            <div className="hidden md:flex items-center space-x-4">
+              {[
+                { label: "Portfolio", id: "portfolio", icon: <Briefcase className="w-4 h-4" /> },
+                { label: "Availability", id: "availability", icon: <Calendar className="w-4 h-4" /> },
+              ].map(({ label, id, icon }) => (
+                <Button
+                  key={id}
+                  onClick={() => scrollToSection(id)}
+                  className="text-white hover:text-cyan-400 transition-colors group relative"
+                >
+                  <span className="mr-1">{icon}</span>
+                  <span className="relative z-10">{label}</span>
+                </Button>
+              ))}
+
               <Button
                 onClick={() => scrollToSection("contact")}
-                className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 w-fit"
+                className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 rounded-md px-4 py-2 text-sm font-semibold transition-transform hover:scale-105 shadow-md"
               >
                 Contact
               </Button>
             </div>
           </div>
-        )}
-      </div>
-    </nav>
+
+          {/* Menú móvil */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 pt-2 border-t border-purple-500/40 animate-fadeIn">
+              <div className="flex flex-col space-y-3 text-base font-medium text-white px-2">
+                {[
+                  { name: "Home", id: "home", icon: <Home className="w-5 h-5" /> },
+                  { name: "Services", id: "services", icon: <Code className="w-5 h-5" /> },
+                  { name: "About", id: "about", icon: <Info className="w-5 h-5" /> },
+                  { name: "Portfolio", id: "portfolio", icon: <Briefcase className="w-5 h-5" /> },
+                  { name: "Availability", id: "availability", icon: <Calendar className="w-5 h-5" /> },
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className="flex items-center gap-2 text-left hover:text-purple-400 transition-colors py-2 px-2 rounded-md hover:bg-white/5"
+                  >
+                    {item.icon} {item.name}
+                  </button>
+                ))}
+                <div className="pt-2">
+                  <Button
+                    onClick={() => scrollToSection("contact")}
+                    className="w-full bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 rounded-md py-2 font-semibold"
+                  >
+                    Contact
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </nav>
+    </>
   )
 }

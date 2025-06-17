@@ -49,22 +49,22 @@ export function Hero() {
       <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
         <div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 rounded-full px-4 py-2 mb-8">
           <Sparkles className="w-4 h-4 text-purple-400" />
-          <span className="text-sm text-purple-300">AI & Blockchain Developer</span>
+          <span className="text-sm text-purple-300">Desarrollo en IA & Blockchain</span>
         </div>
 
         <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
           <span className="bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent">
-            Building the
+            Construyendo Atósferas AI
           </span>
           <br />
           <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
-            Future of Tech
+            En El Mundo Tech
           </span>
         </h1>
 
         <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-          Transforming ideas into intelligent solutions with cutting-edge AI and blockchain technologies. Let's create
-          something extraordinary together.
+          Transformamos ideas en soluciones inteligentes con tecnologías avanzadas de inteligencia artificial y blockchain.
+          Creemos algo extraordinario juntos.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -73,7 +73,7 @@ export function Hero() {
             size="lg"
             className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white px-8 py-6 text-lg group"
           >
-            Explore Services
+            Explorar Servicios
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>
           <Button
@@ -82,7 +82,7 @@ export function Hero() {
             className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10 px-8 py-6 text-lg"
             onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
           >
-            Get In Touch
+            Contáctame
           </Button>
         </div>
 
