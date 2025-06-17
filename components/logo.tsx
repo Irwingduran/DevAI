@@ -1,4 +1,3 @@
-// logo.tsx
 import React from 'react';
 
 const AIBlockchainLabsLogo: React.FC = () => {
