@@ -25,8 +25,6 @@ import {
   Eye,
   Headphones,
 } from "lucide-react"
-import Link from "next/link"
-import { Navbar } from "@/components/landing/navbar"
 
 export default function LandingPage() {
   const [activeStep, setActiveStep] = useState(0)
@@ -47,71 +45,71 @@ export default function LandingPage() {
   const steps = [
     {
       icon: MessageSquare,
-      title: "Describe tu negocio",
-      description: "Cuéntanos sobre tus desafíos y objetivos",
+      title: "Describe your business",
+      description: "Tell us about your challenges and goals",
     },
     {
       icon: Target,
-      title: "Elige tus prioridades",
-      description: "Selecciona lo que más importa para tu éxito",
+      title: "Choose your priorities",
+      description: "Select what matters most to your success",
     },
     {
       icon: Brain,
-      title: "Obtén una solución inteligente personalizada",
-      description: "La IA genera tu hoja de ruta personalizada",
+      title: "Get a custom smart solution",
+      description: "AI generates your personalized roadmap",
     },
     {
       icon: Rocket,
-      title: "Construye tú mismo o déjanos hacerlo",
-      description: "Elige tu camino de implementación",
+      title: "Build it yourself or let us do it",
+      description: "Choose your implementation path",
     },
   ]
 
   const userTypes = [
     {
       emoji: "👩‍🎤",
-      role: "Emprendedores",
-      useCase: "Automatiza mensajes a clientes y generación de leads",
+      role: "Entrepreneurs",
+      useCase: "Automate client messages and lead generation",
     },
     {
       emoji: "👨‍⚕️",
-      role: "Dueños de pequeños negocios",
-      useCase: "Rastrea pedidos con transparencia blockchain",
+      role: "Small Business Owners",
+      useCase: "Track orders with blockchain transparency",
     },
     {
       emoji: "📚",
-      role: "Educadores",
-      useCase: "Crea experiencias de aprendizaje con IA",
+      role: "Educators",
+      useCase: "Create AI-powered learning experiences",
     },
     {
       emoji: "💼",
       role: "Freelancers",
-      useCase: "Optimiza flujos de trabajo de gestión de proyectos",
+      useCase: "Streamline project management workflows",
     },
   ]
 
   const templates = [
     {
-      title: "Soporte al Cliente con IA",
-      description: "Asistente de chat inteligente 24/7",
+      title: "AI Customer Support",
+      description: "24/7 intelligent chat assistant",
       price: "$29",
-      category: "IA",
+      category: "AI",
     },
     {
-      title: "Inventario Blockchain",
-      description: "Seguimiento transparente de cadena de suministro",
+      title: "Blockchain Inventory",
+      description: "Transparent supply chain tracking",
       price: "$49",
       category: "Blockchain",
     },
     {
-      title: "Analíticas Inteligentes",
-      description: "Información empresarial potenciada por IA",
+      title: "Smart Analytics",
+      description: "AI-powered business insights",
       price: "$39",
-      category: "IA",
+      category: "AI",
     },
     {
-      title: "Pagos Seguros",
-      description: "Procesamiento de pagos con blockchain",
+      title: "Secure Payments",
+      description: "Blockchain payment processing",
       price: "$59",
       category: "Blockchain",
     },
@@ -120,35 +118,33 @@ export default function LandingPage() {
   const testimonials = [
     {
       name: "Sarah Chen",
-      role: "Dueña de E-commerce",
+      role: "E-commerce Owner",
       avatar: "/placeholder.svg?height=40&width=40",
       rating: 5,
-      quote: "Incrementé la satisfacción del cliente en 40% con soporte de chat con IA",
-      result: "40% más de satisfacción",
+      quote: "Increased customer satisfaction by 40% with AI chat support",
+      result: "40% boost in satisfaction",
     },
     {
       name: "Marcus Rodriguez",
-      role: "Cadena de Restaurantes",
+      role: "Restaurant Chain",
       avatar: "/placeholder.svg?height=40&width=40",
       rating: 5,
-      quote: "El inventario blockchain redujo el desperdicio de comida en 60% en todas las ubicaciones",
-      result: "60% menos desperdicio",
+      quote: "Blockchain inventory cut food waste by 60% across all locations",
+      result: "60% less food waste",
     },
     {
       name: "Emily Watson",
-      role: "Firma de Consultoría",
+      role: "Consulting Firm",
       avatar: "/placeholder.svg?height=40&width=40",
       rating: 5,
-      quote: "Las analíticas de IA nos ayudaron a identificar $2M en oportunidades de ahorro",
-      result: "$2M en ahorros identificados",
+      quote: "AI analytics helped us identify $2M in cost savings opportunities",
+      result: "$2M in savings identified",
     },
   ]
 
   return (
-    <>
-    <Navbar/>
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      {/* Fondo de Partículas Flotantes */}
+      {/* Floating Particles Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <div
@@ -164,7 +160,7 @@ export default function LandingPage() {
         ))}
       </div>
 
-      {/* Sección Hero */}
+      {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <div
@@ -173,31 +169,35 @@ export default function LandingPage() {
             <div className="space-y-6">
               <Badge className="bg-gradient-to-r from-blue-500 to-purple-500 text-white border-0 px-4 py-2">
                 <Sparkles className="w-4 h-4 mr-2" />
-                Sin Código Requerido
+                No Code Required
               </Badge>
 
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
-                Convierte tus ideas de negocio en{" "}
+                Turn your business ideas into{" "}
                 <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  soluciones inteligentes con IA
+                  smart AI-powered solutions
                 </span>
               </h1>
 
               <p className="text-xl text-gray-600 leading-relaxed max-w-2xl">
-                Sin código. Sin habilidades técnicas. Solo dinos tus problemas - nosotros hacemos el resto.
+                No code. No tech skills. Just tell us your pain points — we do the rest.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/">
+              <LeadCaptureModal
+                triggerText="Start Free"
+                formOrigin="Hero CTA"
+                trigger={
                   <Button
                     size="lg"
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    Comenzar Gratis
+                    Start Free
                     <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button></Link>
-         
+                  </Button>
+                }
+              />
 
               <Button
                 variant="outline"
@@ -206,22 +206,22 @@ export default function LandingPage() {
                 onClick={() => scrollToSection("how-it-works")}
               >
                 <Play className="mr-2 w-5 h-5" />
-                Cómo funciona
+                How it works
               </Button>
             </div>
 
             <div className="flex items-center gap-8 pt-8">
               <div className="text-center">
                 <div className="text-2xl font-bold text-gray-900">10k+</div>
-                <div className="text-sm text-gray-600">Soluciones Construidas</div>
+                <div className="text-sm text-gray-600">Solutions Built</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-gray-900">98%</div>
-                <div className="text-sm text-gray-600">Tasa de Éxito</div>
+                <div className="text-sm text-gray-600">Success Rate</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-gray-900">24/7</div>
-                <div className="text-sm text-gray-600">Soporte Experto</div>
+                <div className="text-sm text-gray-600">Expert Support</div>
               </div>
             </div>
           </div>
@@ -232,7 +232,7 @@ export default function LandingPage() {
             <div className="relative">
               <img
                 src="/placeholder.svg?height=600&width=800&text=Futuristic+AI+Assistant+Interface"
-                alt="Interfaz de Asistente de IA"
+                alt="AI Assistant Interface"
                 className="w-full h-auto rounded-3xl shadow-2xl"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-blue-500/20 to-transparent rounded-3xl"></div>
@@ -241,14 +241,14 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Sección Cómo Funciona */}
+      {/* How It Works Section */}
       <section id="how-it-works" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-blue-100 text-blue-700 mb-4">Proceso Simple</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Cómo Funciona</h2>
+            <Badge className="bg-blue-100 text-blue-700 mb-4">Simple Process</Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">How It Works</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              De idea a implementación en solo 4 simples pasos
+              From idea to implementation in just 4 simple steps
             </p>
           </div>
 
@@ -289,14 +289,14 @@ export default function LandingPage() {
 
           <div className="text-center mt-12">
             <LeadCaptureModal
-              triggerText="Prueba la experiencia guiada"
-              formOrigin="Cómo Funciona CTA"
+              triggerText="Try the guided experience"
+              formOrigin="How It Works CTA"
               trigger={
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-full"
                 >
-                  Prueba la experiencia guiada
+                  Try the guided experience
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               }
@@ -305,14 +305,14 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Sección Para Quién Es */}
+      {/* Who It's For Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-blue-50 to-purple-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-purple-100 text-purple-700 mb-4">Perfecto Para</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Para Quién Es</h2>
+            <Badge className="bg-purple-100 text-purple-700 mb-4">Perfect For</Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Who It's For</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Diseñado para profesionales ambiciosos listos para adoptar tecnología inteligente
+              Designed for ambitious professionals ready to embrace smart technology
             </p>
           </div>
 
@@ -336,33 +336,33 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Sección Seguimiento de Proyecto */}
+      {/* Project Tracker Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <Badge className="bg-green-100 text-green-700 mb-4">Seguimiento en Tiempo Real</Badge>
-              <h2 className="text-4xl lg:text-5xl font-bold mb-6">Mira tu solución cobrar vida</h2>
+              <Badge className="bg-green-100 text-green-700 mb-4">Real-Time Tracking</Badge>
+              <h2 className="text-4xl lg:text-5xl font-bold mb-6">Watch Your Solution Come to Life</h2>
               <p className="text-xl text-gray-600 mb-8">
-                Transparencia total con actualizaciones de proyecto en tiempo real y comunicación con expertos
+                Full transparency with real-time project updates and expert communication
               </p>
 
               <div className="space-y-4">
                 {[
                   {
                     icon: Eye,
-                    title: "Ve tu solución cobrar vida paso a paso",
-                    description: "Seguimiento de progreso con hitos detallados",
+                    title: "See your solution come to life step by step",
+                    description: "Live progress tracking with detailed milestones",
                   },
                   {
                     icon: BarChart3,
-                    title: "Actualizaciones de desarrollo transparentes",
-                    description: "Notificaciones y cambios de estado en tiempo real",
+                    title: "Transparent development updates",
+                    description: "Real-time notifications and status changes",
                   },
                   {
                     icon: Headphones,
-                    title: "Comunicación integrada con expertos",
-                    description: "Chat directo con tu equipo de solución dedicado",
+                    title: "Built-in communication with experts",
+                    description: "Direct chat with your dedicated solution team",
                   },
                 ].map((benefit, index) => {
                   const Icon = benefit.icon
@@ -385,28 +385,28 @@ export default function LandingPage() {
               <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-2xl">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold">Bot de Soporte al Cliente con IA</h3>
-                    <Badge className="bg-green-100 text-green-700">En Progreso</Badge>
+                    <h3 className="font-semibold">AI Customer Support Bot</h3>
+                    <Badge className="bg-green-100 text-green-700">In Progress</Badge>
                   </div>
 
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <CheckCircle className="w-5 h-5 text-green-500" />
-                      <span className="text-sm">Recopilación de requisitos completada</span>
+                      <span className="text-sm">Requirements gathering completed</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <CheckCircle className="w-5 h-5 text-green-500" />
-                      <span className="text-sm">Entrenamiento del modelo de IA en progreso</span>
+                      <span className="text-sm">AI model training in progress</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <Clock className="w-5 h-5 text-blue-500" />
-                      <span className="text-sm">Pruebas de integración - 2 días restantes</span>
+                      <span className="text-sm">Integration testing - 2 days remaining</span>
                     </div>
                   </div>
 
                   <div className="mt-4 pt-4 border-t">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Progreso</span>
+                      <span className="text-gray-600">Progress</span>
                       <span className="font-semibold">75%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
@@ -420,31 +420,31 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Sección Beneficios PRO */}
+      {/* PRO Benefits Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-purple-50 to-pink-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white mb-4">Hazte PRO</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Desbloquea todo el potencial</h2>
+            <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white mb-4">Go PRO</Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Unlock Full Potential</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Obtén acceso ilimitado a funciones avanzadas y soporte prioritario
+              Get unlimited access to advanced features and priority support
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Plan Gratis */}
+            {/* Free Plan */}
             <Card className="border-2 border-gray-200">
               <CardContent className="p-8">
                 <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold mb-2">Gratis</h3>
+                  <h3 className="text-2xl font-bold mb-2">Free</h3>
                   <div className="text-4xl font-bold mb-4">
-                    $0<span className="text-lg text-gray-600">/mes</span>
+                    $0<span className="text-lg text-gray-600">/month</span>
                   </div>
-                  <p className="text-gray-600">Perfecto para comenzar</p>
+                  <p className="text-gray-600">Perfect for getting started</p>
                 </div>
 
                 <div className="space-y-3 mb-8">
-                  {["3 soluciones por mes", "Plantillas básicas", "Soporte comunitario", "Tiempo de procesamiento estándar"].map(
+                  {["3 solutions per month", "Basic templates", "Community support", "Standard processing time"].map(
                     (feature, index) => (
                       <div key={index} className="flex items-center gap-3">
                         <CheckCircle className="w-5 h-5 text-green-500" />
@@ -455,21 +455,21 @@ export default function LandingPage() {
                 </div>
 
                 <LeadCaptureModal
-                  triggerText="Comienza Gratis"
-                  formOrigin="Plan Gratis CTA"
+                  triggerText="Get Started Free"
+                  formOrigin="Free Plan CTA"
                   trigger={
                     <Button variant="outline" className="w-full bg-transparent">
-                      Comienza Gratis
+                      Get Started Free
                     </Button>
                   }
                 />
               </CardContent>
             </Card>
 
-            {/* Plan PRO */}
+            {/* PRO Plan */}
             <Card className="border-2 border-purple-500 relative overflow-hidden">
               <div className="absolute top-0 right-0 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 text-sm font-semibold">
-                Más Popular
+                Most Popular
               </div>
 
               <CardContent className="p-8">
@@ -479,19 +479,19 @@ export default function LandingPage() {
                     <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                       $49
                     </span>
-                    <span className="text-lg text-gray-600">/mes</span>
+                    <span className="text-lg text-gray-600">/month</span>
                   </div>
-                  <p className="text-gray-600">Para emprendedores serios</p>
+                  <p className="text-gray-600">For serious entrepreneurs</p>
                 </div>
 
                 <div className="space-y-3 mb-8">
                   {[
-                    "Soluciones ilimitadas",
-                    "Plantillas premium y marketplace",
-                    "Soporte experto prioritario",
-                    "Recomendaciones avanzadas de IA",
-                    "Integraciones personalizadas",
-                    "Opciones white-label",
+                    "Unlimited solutions",
+                    "Premium templates & marketplace",
+                    "Priority expert support",
+                    "Advanced AI recommendations",
+                    "Custom integrations",
+                    "White-label options",
                   ].map((feature, index) => (
                     <div key={index} className="flex items-center gap-3">
                       <CheckCircle className="w-5 h-5 text-purple-500" />
@@ -502,11 +502,11 @@ export default function LandingPage() {
                 </div>
 
                 <LeadCaptureModal
-                  triggerText="Prueba 7 Días Gratis"
-                  formOrigin="Plan PRO CTA"
+                  triggerText="Try 7 Days Free"
+                  formOrigin="PRO Plan CTA"
                   trigger={
                     <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
-                      Prueba 7 Días Gratis
+                      Try 7 Days Free
                     </Button>
                   }
                 />
@@ -516,14 +516,14 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Sección Plantillas/Marketplace */}
+      {/* Templates/Marketplace Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-orange-100 text-orange-700 mb-4">Listo para Usar</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Herramientas plug-and-play para ir más rápido</h2>
+            <Badge className="bg-orange-100 text-orange-700 mb-4">Ready-to-Use</Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Plug-and-play tools to go faster</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Salta la configuración con nuestras soluciones y plantillas pre-construidas
+              Skip the setup with our pre-built solutions and templates
             </p>
           </div>
 
@@ -537,7 +537,7 @@ export default function LandingPage() {
                   <div className="flex items-center justify-between mb-4">
                     <Badge
                       className={`${
-                        template.category === "IA" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
+                        template.category === "AI" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
                       }`}
                     >
                       {template.category}
@@ -555,7 +555,7 @@ export default function LandingPage() {
                     size="sm"
                     className="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all bg-transparent"
                   >
-                    Vista Previa e Instalar
+                    Preview & Install
                   </Button>
                 </CardContent>
               </Card>
@@ -568,20 +568,20 @@ export default function LandingPage() {
               variant="outline"
               className="border-2 border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white px-8 py-4 rounded-full bg-transparent"
             >
-              Explorar Todos los Recursos
+              Browse All Resources
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Sección Testimonios */}
+      {/* Testimonials Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-green-50 to-blue-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-green-100 text-green-700 mb-4">Historias de Éxito</Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Resultados Reales de Negocios Reales</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Mira cómo nuestra plataforma transformó estos negocios</p>
+            <Badge className="bg-green-100 text-green-700 mb-4">Success Stories</Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Real Results from Real Businesses</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">See how our platform transformed these businesses</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -628,64 +628,65 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Sección CTA Final con Formulario Integrado */}
+      {/* Final CTA Section with Embedded Form */}
       <section id="wizard" className="py-20 px-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Lado izquierdo - Contenido CTA */}
+            {/* Left side - CTA Content */}
             <div className="text-white">
               <h2 className="text-4xl lg:text-6xl font-bold mb-6">
-                ¿Listo para comenzar a construir{" "}
+                Ready to start building{" "}
                 <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-                  de manera más inteligente?
+                  smarter?
                 </span>
               </h2>
 
               <p className="text-xl mb-8 opacity-90 max-w-2xl">
-                Únete a miles de emprendedores que ya han transformado sus negocios con soluciones de IA y blockchain
+                Join thousands of entrepreneurs who've already transformed their businesses with AI and blockchain
+                solutions
               </p>
 
               <div className="flex flex-wrap gap-8 text-sm opacity-75 mb-8">
                 <div className="flex items-center gap-2">
                   <Heart className="w-4 h-4" />
-                  No se requiere tarjeta de crédito
+                  No credit card required
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4" />
-                  Configuración en 5 minutos
+                  5-minute setup
                 </div>
                 <div className="flex items-center gap-2">
                   <Shield className="w-4 h-4" />
-                  Cancela en cualquier momento
+                  Cancel anytime
                 </div>
               </div>
 
               <div className="lg:hidden mb-8">
                 <LeadCaptureModal
-                  triggerText="Obtén Mi Solución Inteligente"
-                  formOrigin="CTA Final Móvil"
+                  triggerText="Get My Smart Solution"
+                  formOrigin="Final CTA Mobile"
                   trigger={
                     <Button
                       size="lg"
                       className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full"
                     >
                       <Rocket className="mr-2 w-5 h-5" />
-                      Obtén Mi Solución Inteligente
+                      Get My Smart Solution
                     </Button>
                   }
                 />
               </div>
             </div>
 
-            {/* Lado derecho - Formulario Integrado (solo escritorio) */}
+            {/* Right side - Embedded Form (Desktop only) */}
             <div className="hidden lg:block">
-              <LeadCaptureForm formOrigin="CTA Final Integrado" className="shadow-2xl" />
+              <LeadCaptureForm formOrigin="Final CTA Embedded" className="shadow-2xl" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pie de Página */}
+      {/* Footer */}
       <footer className="bg-gray-900 text-white py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8">
@@ -697,47 +698,46 @@ export default function LandingPage() {
                 <span className="text-xl font-bold">SmartSolutions</span>
               </div>
               <p className="text-gray-400 text-sm">
-                Empoderando negocios con soluciones de IA y blockchain, sin necesidad de conocimientos técnicos.
+                Empowering businesses with AI and blockchain solutions, no technical knowledge required.
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-4">Producto</h3>
+              <h3 className="font-semibold mb-4">Product</h3>
               <div className="space-y-2 text-sm text-gray-400">
-                <div>Cómo funciona</div>
-                <div>Plantillas</div>
-                <div>Precios</div>
-                <div>Empresa</div>
+                <div>How it works</div>
+                <div>Templates</div>
+                <div>Pricing</div>
+                <div>Enterprise</div>
               </div>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-4">Soporte</h3>
+              <h3 className="font-semibold mb-4">Support</h3>
               <div className="space-y-2 text-sm text-gray-400">
-                <div>Centro de Ayuda</div>
-                <div>Contáctanos</div>
-                <div>Soporte Experto</div>
-                <div>Estado</div>
+                <div>Help Center</div>
+                <div>Contact Us</div>
+                <div>Expert Support</div>
+                <div>Status</div>
               </div>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-4">Empresa</h3>
+              <h3 className="font-semibold mb-4">Company</h3>
               <div className="space-y-2 text-sm text-gray-400">
-                <div>Acerca de</div>
+                <div>About</div>
                 <div>Blog</div>
-                <div>Carreras</div>
-                <div>Privacidad</div>
+                <div>Careers</div>
+                <div>Privacy</div>
               </div>
             </div>
           </div>
 
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 text-sm">
-            © 2024 SmartSolutions. Todos los derechos reservados.
+            © 2024 SmartSolutions. All rights reserved.
           </div>
         </div>
       </footer>
     </div>
-    </>
   )
 }

@@ -27,7 +27,7 @@ export default function AnalyticsPage() {
             <p className="text-gray-600 mb-4">Upgrade to unlock advanced analytics</p>
             <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
               <Crown className="w-4 h-4 mr-2" />
-              Upgrade to PRO
+              Upgrade to PRO 
             </Button>
           </div>
         </div>
