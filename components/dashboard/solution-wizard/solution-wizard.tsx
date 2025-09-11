@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { ChevronLeft, ChevronRight, X } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { ArrowLeft, ArrowRight, CheckCircle, Wand2, Sparkles, Users, Target, Lightbulb } from "lucide-react"
 
 // Import step components
 import { BusinessContextStep } from "./steps/business-context-step"
@@ -14,35 +14,6 @@ import { PrioritiesStep } from "./steps/priorities-step"
 import { SolutionPreviewStep } from "./steps/solution-preview-step"
 import { NextStepStep } from "./steps/next-step-step"
 
-export interface WizardData {
-  // Step 1 - Business Context
-  industry: string
-  teamSize: string
-  usesDigitalTools: boolean | null
-  digitalToolsDescription: string
-
-  // Step 2 - Pain Points
-  painPoints: string[]
-
-  // Step 3 - Workflow
-  workflowDescription: string
-  uploadedFiles: File[]
-
-  // Step 4 - Priorities
-  priority: string
-
-  // Step 5 - Solution Preview
-  selectedAddOns: string[]
-
-  // Generated solution data
-  generatedSolution: {
-    name: string
-    type: "AI" | "Blockchain" | "Hybrid"
-    summary: string[]
-    description: string
-  } | null
-}
-
 interface SolutionWizardProps {
   isOpen: boolean
   onClose: () => void
@@ -50,274 +21,397 @@ interface SolutionWizardProps {
   onContactExpert: (context: any) => void
 }
 
-const TOTAL_STEPS = 6
+interface WizardData {
+  businessContext: {
+    industry: string
+    businessSize: string
+    currentChallenges: string[]
+    goals: string[]
+    timeline: string
+    budget: string
+  }
+  painPoints: {
+    primaryPain: string
+    impactLevel: number
+    currentSolution: string
+    limitations: string[]
+    urgency: string
+  }
+  workflow: {
+    currentProcess: string[]
+    stakeholders: string[]
+    tools: string[]
+    bottlenecks: string[]
+    idealOutcome: string
+  }
+  priorities: {
+    mustHave: string[]
+    niceToHave: string[]
+    dealBreakers: string[]
+    successMetrics: string[]
+    riskTolerance: string
+  }
+  generatedSolution: {
+    name: string
+    type: "AI" | "Blockchain" | "Hybrid"
+    description: string
+    complexity: "Beginner" | "Intermediate" | "Advanced"
+    estimatedTime: string
+    benefits: string[]
+    nextSteps: string[]
+    tags: string[]
+    confidence: number
+  } | null
+}
+
+const steps = [
+  {
+    id: 1,
+    title: "Business Context",
+    description: "Tell us about your business and goals",
+    icon: <Target className="w-5 h-5" />,
+  },
+  {
+    id: 2,
+    title: "Pain Points",
+    description: "What challenges are you facing?",
+    icon: <Lightbulb className="w-5 h-5" />,
+  },
+  {
+    id: 3,
+    title: "Current Workflow",
+    description: "How do you currently handle this?",
+    icon: <Users className="w-5 h-5" />,
+  },
+  {
+    id: 4,
+    title: "Priorities",
+    description: "What matters most to you?",
+    icon: <CheckCircle className="w-5 h-5" />,
+  },
+  {
+    id: 5,
+    title: "Solution Preview",
+    description: "Review your personalized solution",
+    icon: <Sparkles className="w-5 h-5" />,
+  },
+  {
+    id: 6,
+    title: "Next Steps",
+    description: "Choose how to proceed",
+    icon: <ArrowRight className="w-5 h-5" />,
+  },
+]
 
 export function SolutionWizard({ isOpen, onClose, onCreateSolution, onContactExpert }: SolutionWizardProps) {
   const [currentStep, setCurrentStep] = useState(1)
-  const [isTransitioning, setIsTransitioning] = useState(false)
   const [wizardData, setWizardData] = useState<WizardData>({
-    industry: "",
-    teamSize: "",
-    usesDigitalTools: null,
-    digitalToolsDescription: "",
-    painPoints: [],
-    workflowDescription: "",
-    uploadedFiles: [],
-    priority: "",
-    selectedAddOns: [],
+    businessContext: {
+      industry: "",
+      businessSize: "",
+      currentChallenges: [],
+      goals: [],
+      timeline: "",
+      budget: "",
+    },
+    painPoints: {
+      primaryPain: "",
+      impactLevel: 5,
+      currentSolution: "",
+      limitations: [],
+      urgency: "",
+    },
+    workflow: {
+      currentProcess: [],
+      stakeholders: [],
+      tools: [],
+      bottlenecks: [],
+      idealOutcome: "",
+    },
+    priorities: {
+      mustHave: [],
+      niceToHave: [],
+      dealBreakers: [],
+      successMetrics: [],
+      riskTolerance: "",
+    },
     generatedSolution: null,
   })
 
-  const progress = (currentStep / TOTAL_STEPS) * 100
+  const updateWizardData = (step: keyof WizardData, data: any) => {
+    setWizardData((prev) => ({
+      ...prev,
+      [step]: { ...prev[step], ...data },
+    }))
+  }
 
-  const updateWizardData = (updates: Partial<WizardData>) => {
-    setWizardData((prev) => ({ ...prev, ...updates }))
+  const generateSolution = () => {
+    // AI-powered solution generation based on wizard data
+    const { businessContext, painPoints, workflow, priorities } = wizardData
+
+    // Simple AI logic for demo - in real app this would call an AI service
+    let solutionType: "AI" | "Blockchain" | "Hybrid" = "AI"
+    let complexity: "Beginner" | "Intermediate" | "Advanced" = "Intermediate"
+    let estimatedTime = "2-3 weeks"
+
+    // Determine solution type based on pain points and goals
+    if (
+      painPoints.primaryPain.toLowerCase().includes("transparency") ||
+      painPoints.primaryPain.toLowerCase().includes("trust") ||
+      businessContext.goals.some((goal) => goal.toLowerCase().includes("security"))
+    ) {
+      solutionType = "Blockchain"
+      complexity = "Advanced"
+      estimatedTime = "4-6 weeks"
+    } else if (
+      businessContext.goals.some((goal) => goal.toLowerCase().includes("automation")) &&
+      painPoints.primaryPain.toLowerCase().includes("data")
+    ) {
+      solutionType = "Hybrid"
+      complexity = "Advanced"
+      estimatedTime = "6-8 weeks"
+    }
+
+    // Generate solution name based on context
+    const solutionNames = {
+      AI: [
+        "Smart Customer Assistant",
+        "Intelligent Process Optimizer",
+        "AI-Powered Analytics Platform",
+        "Automated Decision Engine",
+      ],
+      Blockchain: [
+        "Transparent Tracking System",
+        "Secure Verification Platform",
+        "Decentralized Management Hub",
+        "Blockchain Audit Trail",
+      ],
+      Hybrid: [
+        "Smart Verification System",
+        "AI-Blockchain Analytics",
+        "Intelligent Trust Platform",
+        "Hybrid Automation Suite",
+      ],
+    }
+
+    const randomName = solutionNames[solutionType][Math.floor(Math.random() * solutionNames[solutionType].length)]
+
+    const generatedSolution = {
+      name: randomName,
+      type: solutionType,
+      description: `A ${solutionType.toLowerCase()} solution designed to address ${painPoints.primaryPain.toLowerCase()} while achieving ${businessContext.goals.join(", ").toLowerCase()}.`,
+      complexity,
+      estimatedTime,
+      benefits: [
+        `Solve ${painPoints.primaryPain.toLowerCase()}`,
+        `Achieve ${businessContext.goals[0]?.toLowerCase() || "business goals"}`,
+        `Reduce manual work by 70%`,
+        `Improve efficiency and accuracy`,
+        `Scale with your business growth`,
+      ],
+      nextSteps: [
+        "Review and refine requirements",
+        "Set up development environment",
+        "Begin implementation phase",
+        "Test and optimize solution",
+        "Deploy and train team",
+      ],
+      tags: ["AI-Generated", solutionType, complexity, businessContext.industry],
+      confidence: Math.floor(Math.random() * 20) + 80, // 80-100% confidence
+    }
+
+    updateWizardData("generatedSolution", generatedSolution)
+    setCurrentStep(5)
   }
 
   const handleNext = () => {
     if (currentStep === 4) {
-      // Generate solution before showing preview
-      const solution = generateSolution(wizardData)
-      updateWizardData({ generatedSolution: solution })
-    }
-
-    if (currentStep < TOTAL_STEPS) {
-      setIsTransitioning(true)
-      setTimeout(() => {
-        setCurrentStep((prev) => prev + 1)
-        setIsTransitioning(false)
-      }, 150)
+      generateSolution()
+    } else if (currentStep < 6) {
+      setCurrentStep(currentStep + 1)
     }
   }
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setIsTransitioning(true)
-      setTimeout(() => {
-        setCurrentStep((prev) => prev - 1)
-        setIsTransitioning(false)
-      }, 150)
+      setCurrentStep(currentStep - 1)
     }
   }
 
   const handleClose = () => {
     setCurrentStep(1)
     setWizardData({
-      industry: "",
-      teamSize: "",
-      usesDigitalTools: null,
-      digitalToolsDescription: "",
-      painPoints: [],
-      workflowDescription: "",
-      uploadedFiles: [],
-      priority: "",
-      selectedAddOns: [],
+      businessContext: {
+        industry: "",
+        businessSize: "",
+        currentChallenges: [],
+        goals: [],
+        timeline: "",
+        budget: "",
+      },
+      painPoints: {
+        primaryPain: "",
+        impactLevel: 5,
+        currentSolution: "",
+        limitations: [],
+        urgency: "",
+      },
+      workflow: {
+        currentProcess: [],
+        stakeholders: [],
+        tools: [],
+        bottlenecks: [],
+        idealOutcome: "",
+      },
+      priorities: {
+        mustHave: [],
+        niceToHave: [],
+        dealBreakers: [],
+        successMetrics: [],
+        riskTolerance: "",
+      },
       generatedSolution: null,
     })
     onClose()
   }
 
-  const canProceed = () => {
-    switch (currentStep) {
-      case 1:
-        return wizardData.industry && wizardData.teamSize && wizardData.usesDigitalTools !== null
-      case 2:
-        return wizardData.painPoints.length > 0
-      case 3:
-        return wizardData.workflowDescription.trim().length > 20
-      case 4:
-        return wizardData.priority !== ""
-      case 5:
-        return true // Always can proceed from solution preview
-      case 6:
-        return true // Final step
-      default:
-        return false
+  const handleCreateSolution = () => {
+    if (wizardData.generatedSolution) {
+      const newSolution = {
+        id: Date.now().toString(),
+        ...wizardData.generatedSolution,
+        status: "planning" as const,
+        progress: 0,
+        createdAt: new Date().toISOString().split("T")[0],
+        lastUpdated: new Date().toISOString().split("T")[0],
+        timeSaved: "0 hrs/week",
+        automationLevel: 0,
+        resources: [],
+        notes: [],
+        wizardData: wizardData,
+      }
+
+      onCreateSolution(newSolution)
+      handleClose()
     }
   }
 
-  const generateSolution = (data: WizardData) => {
-    // Simple solution generation logic based on inputs
-    const hasClientCommunication = data.painPoints.includes("client-communication")
-    const hasFinanceIssues = data.painPoints.includes("finance-organization")
-    const wantsAutomation = data.priority === "automate-tasks"
-    const wantsMoreClients = data.priority === "get-clients"
-
-    if (hasClientCommunication || wantsAutomation) {
-      return {
-        name: "Smart Communication Hub",
-        type: "AI" as const,
-        summary: [
-          "Automatically categorize and prioritize all client messages",
-          "Generate intelligent responses and follow-up reminders",
-          "Track client satisfaction and communication patterns",
-        ],
-        description:
-          "AI-powered communication system that streamlines all client interactions across multiple channels, reducing response time and improving customer satisfaction.",
-      }
-    } else if (hasFinanceIssues) {
-      return {
-        name: "Blockchain Finance Tracker",
-        type: "Blockchain" as const,
-        summary: [
-          "Immutable financial records with complete transparency",
-          "Real-time cash flow monitoring and alerts",
-          "Automated compliance reporting and tax preparation",
-        ],
-        description:
-          "Blockchain-based financial management system that provides transparent, secure tracking of all business transactions with automated reporting capabilities.",
-      }
-    } else if (wantsMoreClients) {
-      return {
-        name: "AI Customer Acquisition Engine",
-        type: "Hybrid" as const,
-        summary: [
-          "AI-powered lead scoring and customer insights",
-          "Blockchain-verified customer testimonials and reviews",
-          "Automated marketing campaigns with smart targeting",
-        ],
-        description:
-          "Hybrid AI-Blockchain platform that combines intelligent customer acquisition with transparent reputation management to grow your business.",
-      }
-    } else {
-      return {
-        name: "Business Intelligence Suite",
-        type: "Hybrid" as const,
-        summary: [
-          "Comprehensive business analytics with AI insights",
-          "Secure data management with blockchain verification",
-          "Automated workflow optimization and recommendations",
-        ],
-        description:
-          "Complete business intelligence platform that combines AI analytics with blockchain security to optimize your operations and drive growth.",
-      }
-    }
+  const handleContactExpert = () => {
+    onContactExpert({
+      source: "wizard",
+      wizardData: wizardData,
+      generatedSolution: wizardData.generatedSolution,
+    })
+    handleClose()
   }
 
-  const handleFinalAction = (action: "diy" | "expert" | "save", email?: string) => {
-    if (!wizardData.generatedSolution) return
-
-    const solutionData = {
-      id: Math.random().toString(36).substr(2, 9),
-      name: wizardData.generatedSolution.name,
-      type: wizardData.generatedSolution.type,
-      status: "planning" as const,
-      progress: 0,
-      description: wizardData.generatedSolution.description,
-      estimatedTime: "2-4 weeks",
-      complexity: "Intermediate" as const,
-      benefits: wizardData.generatedSolution.summary,
-      nextSteps: ["Review solution requirements", "Set up development environment", "Begin implementation"],
-      resources: [],
-      createdAt: new Date().toISOString().split("T")[0],
-      lastUpdated: new Date().toISOString().split("T")[0],
-      tags: ["Generated", "Draft"],
-      wizardData: wizardData, // Store original wizard data
-    }
-
-    switch (action) {
-      case "diy":
-        onCreateSolution(solutionData)
-        handleClose()
-        break
-      case "expert":
-        onContactExpert({
-          solution: wizardData.generatedSolution.name,
-          type: "implementation",
-          wizardData: wizardData,
-        })
-        handleClose()
-        break
-      case "save":
-        // Save to localStorage for later
-        localStorage.setItem(`solution-draft-${Date.now()}`, JSON.stringify({ ...solutionData, email }))
-        handleClose()
-        break
-    }
-  }
-
-  const renderStep = () => {
-    const stepProps = {
-      data: wizardData,
-      onUpdate: updateWizardData,
-      onNext: handleNext,
-      onBack: handleBack,
-    }
-
-    switch (currentStep) {
-      case 1:
-        return <BusinessContextStep {...stepProps} />
-      case 2:
-        return <PainPointsStep {...stepProps} />
-      case 3:
-        return <WorkflowStep {...stepProps} />
-      case 4:
-        return <PrioritiesStep {...stepProps} />
-      case 5:
-        return <SolutionPreviewStep {...stepProps} />
-      case 6:
-        return <NextStepStep {...stepProps} onFinalAction={handleFinalAction} />
-      default:
-        return null
-    }
-  }
+  const progressPercentage = (currentStep / 6) * 100
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl max-h-[95vh] p-0 overflow-hidden">
-        <div className="flex flex-col h-[95vh]">
-          {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white">
-            <div className="flex items-center space-x-4">
-              <h2 className="text-xl font-semibold text-gray-900">Create New Solution</h2>
-              <div className="text-sm text-gray-500">
-                Step {currentStep} of {TOTAL_STEPS}
-              </div>
-            </div>
-            <Button variant="ghost" size="sm" onClick={handleClose}>
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="flex items-center space-x-2">
+            <Wand2 className="w-6 h-6 text-blue-600" />
+            <span>Smart Solution Wizard</span>
+          </DialogTitle>
+          <DialogDescription>
+            Let our AI guide you through creating the perfect solution for your business
+          </DialogDescription>
+        </DialogHeader>
 
-          {/* Progress Bar */}
-          <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-            <Progress value={progress} className="h-2" />
+        {/* Progress Bar */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-600">Step {currentStep} of 6</span>
+            <span className="text-gray-600">{Math.round(progressPercentage)}% Complete</span>
           </div>
+          <Progress value={progressPercentage} className="h-2" />
+        </div>
 
-          {/* Step Content */}
-          <div className="flex-1 overflow-y-auto">
+        {/* Step Navigation */}
+        <div className="flex items-center justify-between py-4 border-y">
+          {steps.map((step, index) => (
             <div
-              className={`transition-all duration-150 ${
-                isTransitioning ? "opacity-0 transform translate-x-4" : "opacity-100 transform translate-x-0"
+              key={step.id}
+              className={`flex items-center space-x-2 ${
+                step.id === currentStep ? "text-blue-600" : step.id < currentStep ? "text-green-600" : "text-gray-400"
               }`}
             >
-              {renderStep()}
-            </div>
-          </div>
-
-          {/* Footer Navigation */}
-          {currentStep < 6 && (
-            <div className="flex items-center justify-between p-6 border-t border-gray-200 bg-white">
-              <Button
-                variant="outline"
-                onClick={handleBack}
-                disabled={currentStep === 1}
-                className="flex items-center space-x-2 bg-transparent"
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step.id === currentStep
+                    ? "bg-blue-100 text-blue-600"
+                    : step.id < currentStep
+                      ? "bg-green-100 text-green-600"
+                      : "bg-gray-100 text-gray-400"
+                }`}
               >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Back</span>
-              </Button>
-
-              <Button
-                onClick={handleNext}
-                disabled={!canProceed()}
-                className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-              >
-                <span>{currentStep === 5 ? "Continue" : "Next"}</span>
-                <ChevronRight className="w-4 h-4" />
-              </Button>
+                {step.id < currentStep ? <CheckCircle className="w-4 h-4" /> : step.icon}
+              </div>
+              <div className="hidden md:block">
+                <p className="font-medium text-sm">{step.title}</p>
+                <p className="text-xs opacity-75">{step.description}</p>
+              </div>
             </div>
+          ))}
+        </div>
+
+        {/* Step Content */}
+        <div className="min-h-[400px] py-6">
+          {currentStep === 1 && (
+            <BusinessContextStep
+              data={wizardData.businessContext}
+              onUpdate={(data) => updateWizardData("businessContext", data)}
+            />
           )}
+          {currentStep === 2 && (
+            <PainPointsStep data={wizardData.painPoints} onUpdate={(data) => updateWizardData("painPoints", data)} />
+          )}
+          {currentStep === 3 && (
+            <WorkflowStep data={wizardData.workflow} onUpdate={(data) => updateWizardData("workflow", data)} />
+          )}
+          {currentStep === 4 && (
+            <PrioritiesStep data={wizardData.priorities} onUpdate={(data) => updateWizardData("priorities", data)} />
+          )}
+          {currentStep === 5 && wizardData.generatedSolution && (
+            <SolutionPreviewStep solution={wizardData.generatedSolution} wizardData={wizardData} />
+          )}
+          {currentStep === 6 && (
+            <NextStepStep
+              solution={wizardData.generatedSolution}
+              onCreateSolution={handleCreateSolution}
+              onContactExpert={handleContactExpert}
+            />
+          )}
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="flex items-center justify-between pt-6 border-t">
+          <Button variant="outline" onClick={handleBack} disabled={currentStep === 1}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+
+          <div className="flex items-center space-x-3">
+            <Button variant="ghost" onClick={handleClose}>
+              Cancel
+            </Button>
+            {currentStep < 5 && (
+              <Button onClick={handleNext}>
+                {currentStep === 4 ? "Generate Solution" : "Next"}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            )}
+            {currentStep === 5 && (
+              <div className="flex items-center space-x-2">
+                <Button variant="outline" onClick={() => setCurrentStep(6)}>
+                  Choose Next Steps
+                </Button>
+                <Button onClick={handleCreateSolution}>Create Solution</Button>
+              </div>
+            )}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -3,16 +3,10 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Search, Bell, Settings, User, LogOut, Sparkles } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Search, Bell, Sparkles } from "lucide-react"
+import { AuthButton } from "@/components/auth/auth-button"
 
 interface HeaderProps {
   searchQuery: string
@@ -117,43 +111,8 @@ export function Header({ searchQuery, onSearchChange, notificationCount = 3, isP
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Profile Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
-                    <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-                      JD
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <div className="p-4 border-b">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">John Doe</p>
-                      <p className="text-sm text-gray-600">john@example.com</p>
-                    </div>
-                    {isProUser && <Badge className="bg-green-500 text-white text-xs">PRO</Badge>}
-                  </div>
-                </div>
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  My Account
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Log out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Replace the profile dropdown with AuthButton */}
+            <AuthButton variant="ghost" />
           </div>
         </div>
       </div>

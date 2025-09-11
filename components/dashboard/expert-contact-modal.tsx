@@ -10,6 +10,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Users, Calendar, Mail, CheckCircle, ArrowRight, MessageSquare, Settings, Code, Lightbulb } from "lucide-react"
+import { ServiceTierSelector } from "./service-booking/service-tier-selector"
+import { ProjectIntakeForm } from "./service-booking/project-intake-form"
+import { ConsultationBooking } from "./service-booking/consultation-booking"
+import { BookingSuccessModal } from "./service-booking/booking-success-modal"
 
 interface ExpertContactModalProps {
   isOpen: boolean
@@ -88,6 +92,12 @@ export function ExpertContactModal({
     message: "",
     solutionContext: prefilledSolution,
   })
+  const [showServiceTiers, setShowServiceTiers] = useState(false)
+  const [showIntakeForm, setShowIntakeForm] = useState(false)
+  const [showConsultationBooking, setShowConsultationBooking] = useState(false)
+  const [showBookingSuccess, setShowBookingSuccess] = useState(false)
+  const [selectedTier, setSelectedTier] = useState<any>(null)
+  const [bookingData, setBookingData] = useState<any>(null)
 
   const handleHelpTypeToggle = (typeId: string) => {
     setFormData((prev) => ({
@@ -98,19 +108,64 @@ export function ExpertContactModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
-    onClose()
 
-    // Reset form
-    setFormData({
-      helpType: [],
-      supportType: "",
-      name: "",
-      email: "",
-      message: "",
-      solutionContext: undefined,
+    // Instead of just submitting, route to appropriate booking flow
+    if (formData.supportType === "video-call") {
+      setShowConsultationBooking(true)
+      onClose()
+    } else {
+      setShowServiceTiers(true)
+      onClose()
+    }
+  }
+
+  const handleTierSelection = (tier: any) => {
+    setSelectedTier(tier)
+    setShowServiceTiers(false)
+
+    if (tier.id === "consultation") {
+      setShowConsultationBooking(true)
+    } else {
+      setShowIntakeForm(true)
+    }
+  }
+
+  const handleIntakeSubmission = (intakeData: any) => {
+    setShowIntakeForm(false)
+    // Process intake form data
+    setBookingData({
+      type: "service",
+      serviceType: selectedTier?.name,
+      clientName: intakeData.clientInfo.name,
+      clientEmail: intakeData.clientInfo.email,
+      solutionContext: prefilledSolution
+        ? {
+            name: prefilledSolution,
+            type: prefilledType || "AI",
+          }
+        : undefined,
     })
-    setStep(1)
+    setShowBookingSuccess(true)
+  }
+
+  const handleConsultationBooking = (consultationData: any) => {
+    setShowConsultationBooking(false)
+    setBookingData({
+      type: "consultation",
+      consultationType: consultationData.consultationDetails.type,
+      date: consultationData.consultationDetails.preferredDate,
+      time: consultationData.consultationDetails.preferredTime,
+      duration: consultationData.consultationDetails.duration,
+      clientName: consultationData.clientInfo.name,
+      clientEmail: consultationData.clientInfo.email,
+      solutionContext: prefilledSolution
+        ? {
+            name: prefilledSolution,
+            type: prefilledType || "AI",
+          }
+        : undefined,
+    })
+    setShowBookingSuccess(true)
   }
 
   const canProceedToStep2 = formData.helpType.length > 0
@@ -373,6 +428,66 @@ export function ExpertContactModal({
           )}
         </form>
       </DialogContent>
+
+      {/* Service Booking Modals */}
+      <ServiceTierSelector
+        isOpen={showServiceTiers}
+        onClose={() => setShowServiceTiers(false)}
+        onSelectTier={handleTierSelection}
+        solutionContext={
+          prefilledSolution
+            ? {
+                name: prefilledSolution,
+                type: prefilledType || "AI",
+                complexity: "Intermediate",
+              }
+            : undefined
+        }
+      />
+
+      <ProjectIntakeForm
+        isOpen={showIntakeForm}
+        onClose={() => setShowIntakeForm(false)}
+        onSubmit={handleIntakeSubmission}
+        serviceType={selectedTier?.name || ""}
+        solutionContext={
+          prefilledSolution
+            ? {
+                name: prefilledSolution,
+                type: prefilledType || "AI",
+                complexity: "Intermediate",
+              }
+            : undefined
+        }
+      />
+
+      <ConsultationBooking
+        isOpen={showConsultationBooking}
+        onClose={() => setShowConsultationBooking(false)}
+        onBook={handleConsultationBooking}
+        solutionContext={
+          prefilledSolution
+            ? {
+                name: prefilledSolution,
+                type: prefilledType || "AI",
+              }
+            : undefined
+        }
+      />
+
+      <BookingSuccessModal
+        isOpen={showBookingSuccess}
+        onClose={() => setShowBookingSuccess(false)}
+        bookingData={bookingData || {}}
+        onScheduleAnother={() => {
+          setShowBookingSuccess(false)
+          setShowConsultationBooking(true)
+        }}
+        onViewDashboard={() => {
+          setShowBookingSuccess(false)
+          // Navigate to dashboard - you can add this functionality
+        }}
+      />
     </Dialog>
   )
 }

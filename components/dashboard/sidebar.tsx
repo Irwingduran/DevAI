@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -20,13 +20,78 @@ import {
   Calendar,
   MessageCircle,
   Folder,
+  Target,
+  Zap,
+  TrendingUp,
+  Shield,
+  Sparkles,
+  Star,
+  CheckCircle
 } from "lucide-react"
+import { loadOnboardingData, generateOnboardingInsights, getIndustryColor, getIndustryIcon } from "@/utils/onboarding-data"
 
-export function Sidebar() {
+interface SidebarProps {
+  activeTab?: string
+  onTabChange?: (tab: string) => void
+}
+
+export function Sidebar({ activeTab, onTabChange }: SidebarProps = {}) {
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [contextualItems, setContextualItems] = useState<any[]>([])
+  const [industryInfo, setIndustryInfo] = useState<{ emoji: string; color: string; industry: string } | null>(null)
   const pathname = usePathname()
 
-  const navigation = [
+  useEffect(() => {
+    const onboardingData = loadOnboardingData()
+    if (onboardingData) {
+      const insights = generateOnboardingInsights(onboardingData)
+      const industryColor = getIndustryColor(insights.businessContext.industry)
+      const industryEmoji = getIndustryIcon(insights.businessContext.industry)
+      
+      setIndustryInfo({
+        emoji: industryEmoji,
+        color: industryColor,
+        industry: insights.businessContext.industry
+      })
+
+      // Generate contextual navigation items based on priorities and industry
+      const contextual = generateContextualNavigation(insights)
+      setContextualItems(contextual)
+    }
+  }, [])
+
+  const navigation = onTabChange ? [
+    // Tab-based navigation when onTabChange is provided
+    {
+      name: "Overview",
+      href: "#",
+      icon: LayoutDashboard,
+      current: activeTab === "overview",
+      onClick: () => onTabChange("overview"),
+    },
+    {
+      name: "Solutions",
+      href: "#", 
+      icon: Rocket,
+      current: activeTab === "solutions",
+      onClick: () => onTabChange("solutions"),
+    },
+    {
+      name: "Analytics",
+      href: "#",
+      icon: BarChart3,
+      current: activeTab === "analytics",
+      onClick: () => onTabChange("analytics"),
+    },
+    {
+      name: "Resources",
+      href: "#",
+      icon: Folder,
+      current: activeTab === "resources",
+      onClick: () => onTabChange("resources"),
+    },
+  ] : [
+    // URL-based navigation for full navigation
     {
       name: "Dashboard",
       href: "/dashboard",
@@ -109,10 +174,19 @@ export function Sidebar() {
         <div className="flex items-center justify-between">
           {!isCollapsed && (
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Bot className="w-5 h-5 text-white" />
+              <div className={`w-8 h-8 ${industryInfo ? `bg-gradient-to-r ${industryInfo.color}` : 'bg-gradient-to-r from-blue-600 to-purple-600'} rounded-lg flex items-center justify-center`}>
+                {industryInfo ? (
+                  <span className="text-sm">{industryInfo.emoji}</span>
+                ) : (
+                  <Bot className="w-5 h-5 text-white" />
+                )}
               </div>
-              <span className="font-bold text-gray-900">SmartSolutions</span>
+              <div>
+                <span className="font-bold text-gray-900">FutureFlow</span>
+                {industryInfo && (
+                  <p className="text-xs text-gray-600">{industryInfo.industry} Solutions</p>
+                )}
+              </div>
             </div>
           )}
           <Button
@@ -131,43 +205,84 @@ export function Sidebar() {
         <nav className="space-y-1 px-2">
           {navigation.map((item) => {
             const Icon = item.icon
-            return (
-              <Link key={item.name} href={item.href}>
-                <div
-                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    item.current
-                      ? "bg-blue-50 text-blue-700 border border-blue-200"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            const content = (
+              <div
+                className={`group flex items-center px-2 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer ${
+                  item.current
+                    ? "bg-blue-50 text-blue-700 border border-blue-200"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                }`}
+                onClick={item.onClick}
+              >
+                <Icon
+                  className={`flex-shrink-0 w-5 h-5 ${
+                    item.current ? "text-blue-500" : "text-gray-400 group-hover:text-gray-500"
                   }`}
-                >
-                  <Icon
-                    className={`flex-shrink-0 w-5 h-5 ${
-                      item.current ? "text-blue-500" : "text-gray-400 group-hover:text-gray-500"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <>
-                      <span className="ml-3 flex-1">{item.name}</span>
-                      {item.badge && (
-                        <Badge
-                          variant={item.badgeVariant === "premium" ? "default" : "secondary"}
-                          className={`ml-2 text-xs ${
-                            item.badgeVariant === "premium"
-                              ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white"
-                              : "bg-blue-100 text-blue-800"
-                          }`}
-                        >
-                          {item.badgeVariant === "premium" && <Crown className="w-3 h-3 mr-1" />}
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </>
-                  )}
-                </div>
+                />
+                {!isCollapsed && (
+                  <>
+                    <span className="ml-3 flex-1">{item.name}</span>
+                    {item.badge && (
+                      <Badge
+                        variant={item.badgeVariant === "premium" ? "default" : "secondary"}
+                        className={`ml-2 text-xs ${
+                          item.badgeVariant === "premium"
+                            ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+                            : "bg-blue-100 text-blue-800"
+                        }`}
+                      >
+                        {item.badgeVariant === "premium" && <Crown className="w-3 h-3 mr-1" />}
+                        {item.badge}
+                      </Badge>
+                    )}
+                  </>
+                )}
+              </div>
+            )
+            
+            return item.onClick ? (
+              <div key={item.name}>
+                {content}
+              </div>
+            ) : (
+              <Link key={item.name} href={item.href}>
+                {content}
               </Link>
             )
           })}
         </nav>
+
+        {/* Contextual Quick Actions */}
+        {contextualItems.length > 0 && !isCollapsed && (
+          <>
+            <div className="my-4 px-4">
+              <div className="border-t border-gray-200" />
+            </div>
+            <div className="px-4 mb-3">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Quick Actions</p>
+            </div>
+            <nav className="space-y-1 px-2">
+              {contextualItems.map((item, index) => {
+                const Icon = item.icon
+                return (
+                  <button
+                    key={index}
+                    onClick={item.onClick}
+                    className="w-full group flex items-center px-2 py-2 text-sm font-medium rounded-lg transition-colors text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  >
+                    <Icon className="flex-shrink-0 w-4 h-4 text-gray-400 group-hover:text-gray-500" />
+                    <span className="ml-3 flex-1 text-left">{item.name}</span>
+                    {item.badge && (
+                      <Badge variant="secondary" className="ml-2 text-xs bg-green-100 text-green-800">
+                        {item.badge}
+                      </Badge>
+                    )}
+                  </button>
+                )
+              })}
+            </nav>
+          </>
+        )}
 
         {/* Divider */}
         <div className="my-4 px-4">
@@ -226,4 +341,64 @@ export function Sidebar() {
       )}
     </div>
   )
+}
+
+function generateContextualNavigation(insights: any) {
+  const { userData, businessContext, recommendations } = insights
+  const contextualItems = []
+
+  // Priority-based quick actions
+  if (userData.priorities?.includes("automate-workflows")) {
+    contextualItems.push({
+      name: "Workflow Automation",
+      icon: Zap,
+      badge: "New",
+      onClick: () => console.log("Navigate to workflow automation")
+    })
+  }
+
+  if (userData.priorities?.includes("improve-security")) {
+    contextualItems.push({
+      name: "Security Audit",
+      icon: Shield,
+      badge: "Recommended",
+      onClick: () => console.log("Navigate to security audit")
+    })
+  }
+
+  if (userData.priorities?.includes("reduce-costs")) {
+    contextualItems.push({
+      name: "Cost Optimizer",
+      icon: TrendingUp,
+      onClick: () => console.log("Navigate to cost optimizer")
+    })
+  }
+
+  // Industry-specific shortcuts
+  if (businessContext.industry.toLowerCase().includes("healthcare")) {
+    contextualItems.push({
+      name: "Patient Portal",
+      icon: Users,
+      onClick: () => console.log("Navigate to patient portal")
+    })
+  } else if (businessContext.industry.toLowerCase().includes("e-commerce")) {
+    contextualItems.push({
+      name: "Inventory AI",
+      icon: Target,
+      badge: "Popular",
+      onClick: () => console.log("Navigate to inventory AI")
+    })
+  }
+
+  // Quick wins from recommendations
+  if (recommendations.quickWins?.length > 0) {
+    contextualItems.push({
+      name: "Quick Wins",
+      icon: Star,
+      badge: recommendations.quickWins.length.toString(),
+      onClick: () => console.log("Navigate to quick wins")
+    })
+  }
+
+  return contextualItems.slice(0, 4) // Limit to 4 items
 }
